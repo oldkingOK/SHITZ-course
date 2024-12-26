@@ -4,7 +4,7 @@ import os
 from playwright.sync_api import sync_playwright
 from get_cookie import get_cookie
 
-URL = "https://ids.hit.edu.cn/authserver/login?service=http%3A%2F%2Fjw.hitsz.edu.cn%2FcasLogin"
+AUTH_URL = "https://ids.hit.edu.cn/authserver/login?service=http%3A%2F%2Fjw.hitsz.edu.cn%2FcasLogin"
 
 def get_ticket_url():
     """通过手动登录获取 ticket URL"""
@@ -26,16 +26,16 @@ def get_ticket_url():
             print("未找到存储状态，新建上下文...")
             context = browser.new_context()
         
-        page = context.new_page()
 
         # 打开指定网页
         # 尝试使用 context 的 Cookie 并使用 requests 请求 url，打印出 Response
         cookies = {cookie['name']: cookie['value'] for cookie in context.cookies()}
-        response = requests.get(URL, cookies=cookies, allow_redirects=False)
+        response = requests.get(AUTH_URL, cookies=cookies, allow_redirects=False)
         if response.status_code == 302:
             return response.headers['Location']
 
-        page.goto(URL)
+        page = context.new_page()
+        page.goto(AUTH_URL)
 
         # 等待并点击名称为"Shenzhen"或"深圳校区"的元素
         try:
