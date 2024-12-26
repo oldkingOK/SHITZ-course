@@ -2,7 +2,7 @@ import configparser
 import requests
 import os
 from playwright.sync_api import sync_playwright
-from getcookie import get_cookie
+from get_cookie import get_cookie
 
 URL = "https://ids.hit.edu.cn/authserver/login?service=http%3A%2F%2Fjw.hitsz.edu.cn%2FcasLogin"
 
