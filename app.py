@@ -1,4 +1,6 @@
 import configparser
+import requests
+import os
 from playwright.sync_api import sync_playwright
 
 def main():
@@ -11,12 +13,20 @@ def main():
     with sync_playwright() as p:
         # 启动浏览器
         browser = p.chromium.launch(headless=False)
-        context = browser.new_context()  # 创建上下文以便管理Cookie
+        # load storage state if it exists
+        if os.path.exists("state.json"):
+            print("加载存储状态...")
+            context = browser.new_context(storage_state="state.json")
+        else:
+            print("未找到存储状态，新建上下文...")
+            context = browser.new_context()
+        
         page = context.new_page()
 
         # 打开指定网页
         url = "https://ids.hit.edu.cn/authserver/login?service=http%3A%2F%2Fjw.hitsz.edu.cn%2FcasLogin"
         page.goto(url)
+        input("请手动登录，登录成功后按任意键继续...")
 
         # 等待并点击名称为"Shenzhen"或"深圳校区"的元素
         try:
@@ -25,7 +35,6 @@ def main():
             page.click('a:has-text("Shenzhen"), a:has-text("深圳校区")')
         except Exception as e:
             print("元素未找到：", e)
-            browser.close()
             return
 
         # 填充用户名和密码
@@ -34,11 +43,10 @@ def main():
             page.fill('input.oauth_inputpassword', password)  # 从配置文件读取密码
         except Exception as e:
             print("无法填充用户名或密码：", e)
-            browser.close()
             return
 
         # 提交登录表单
-        # page.press('input.oauth_inputpassword', 'Enter')
+        page.press('input.oauth_inputpassword', 'Enter')
 
         # 点击 .oauth__btn2 按钮
         try:
@@ -46,19 +54,25 @@ def main():
             page.click('.oauth__btn2')
         except Exception as e:
             print("无法点击按钮 .oauth__btn2：", e)
-            browser.close()
             return
 
-        # 等待页面跳转
-        page.wait_for_load_state('load')
+        # 手动请求 http://jw.hitsz.edu.cn/casLogin
+        # def handle_request(route, request):
+        #     print("拦截到请求：", request.url)
+        #     if "http://jw.hitsz.edu.cn/casLogin" in request.url:
+        #         print("拦截到请求，开始手动发送...")
+        #         response = requests.get(request.url, headers=request.headers)
+        #         if response.status_code == 200:
+        #             set_cookie_header = response.headers.get("Set-Cookie", None)
+        #             if set_cookie_header:
+        #                 print("Set-Cookie 中的 Cookie：", set_cookie_header)
+        #         route.continue_()
 
-        # 获取并打印当前页面的Cookie
-        cookies = context.cookies()
-        print("当前Cookie：", cookies)
+        # context.route("http://jw.hitsz.edu.cn/casLogin", handle_request)
 
-        # 关闭浏览器
-        input("按任意键关闭浏览器...")
-        browser.close()
+        # 保存浏览器上下文的存储状态
+        context.storage_state(path="state.json")
 
 if __name__ == "__main__":
     main()
+    input("按任意键退出...")
