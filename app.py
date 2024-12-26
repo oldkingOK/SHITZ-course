@@ -46,21 +46,32 @@ def get_ticket_url():
             print("元素未找到：", e)
             return
 
-        # 填充用户名和密码
-        try:
-            page.fill('input.oauth_inputuser', username)  # 从配置文件读取用户名
-            page.fill('input.oauth_inputpassword', password)  # 从配置文件读取密码
-        except Exception as e:
-            print("无法填充用户名或密码：", e)
-            return
+        # 如果有 .oauth__btn2 按钮，填充用户名和密码
+        if page.query_selector('.oauth__btn2'):
+            # 填充用户名和密码
+            try:
+                page.fill('input.oauth_inputuser', username)  # 从配置文件读取用户名
+                page.fill('input.oauth_inputpassword', password)  # 从配置文件读取密码
+            except Exception as e:
+                print("无法填充用户名或密码：", e)
+                return
 
-        # 点击 .oauth__btn2 按钮
-        try:
-            page.wait_for_selector('.oauth__btn2', timeout=10000)  # 等待按钮出现
-            page.click('.oauth__btn2')
-        except Exception as e:
-            print("无法点击按钮 .oauth__btn2：", e)
-            return
+            # 点击 .oauth__btn2 按钮
+            try:
+                page.wait_for_selector('.oauth__btn2', timeout=10000)  # 等待按钮出现
+                page.click('.oauth__btn2')
+            except Exception as e:
+                print("无法点击按钮 .oauth__btn2：", e)
+                return
+
+        # 如果有 #btn_part1 按钮，点击
+        if page.query_selector('#btn_part1'):
+            try:
+                page.wait_for_selector('#btn_part1', timeout=10000)  # 等待按钮出现
+                page.click('#btn_part1')
+            except Exception as e:
+                print("无法点击按钮 #btn_part1：", e)
+                return
 
         # 保存浏览器上下文的存储状态
         context.storage_state(path="state.json")
