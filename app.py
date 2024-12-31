@@ -61,7 +61,7 @@ def grab():
                 print("Grabbed class:", id)
                 grabed.append(id)
 
-            if "该任务已选择" in msg['message']:
+            elif "该任务已选择" in msg['message']:
                 print("Class already grabbed:", id)
                 grabed.append(id)
 
