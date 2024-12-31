@@ -46,6 +46,8 @@ def get_ticket_url():
             print("元素未找到：", e)
             return
 
+        page.wait_for_selector('input.oauth__btn2, #btn_part1', timeout=60000)  # 等待60秒
+
         # 如果有 .oauth__btn2 按钮，填充用户名和密码
         if page.query_selector('.oauth__btn2'):
             # 填充用户名和密码
