@@ -40,8 +40,7 @@ def u_cookie():
             break
 
 ids = [
-    # ( "248E4D6B93A50548E0630C18F80AD971", ClassType.CROSS), # 污染控制微生物学
-    ( "2580B3A200A64FA1E0630C18F80A1F9A", ClassType.COMPETITION)
+    ( "1234567890ABCDEF1234567890ABCDEF", ClassType.COMPETITION)
 ]
 
 def grab():
