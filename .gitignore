@@ -1,4 +1,6 @@
 .venv
+.ticket
+.cookies
 state.json
 config.ini
 __pycache__
