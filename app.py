@@ -71,8 +71,6 @@ def grab():
             sleep(2)
 
 if __name__ == "__main__":
-    # grab()
-    # u_ticket()
     u_ticket()
     u_cookie()
     pass
