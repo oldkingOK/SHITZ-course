@@ -6,7 +6,13 @@
 
 ### 准备
 
-1. 安装油猴脚本 tample\show_id.js
+#### 获取课程信息
+
+安装油猴脚本 tample\show_id.js
+
+进入选课界面，会在中文课程名的下面看到一长串课程 ID，长度为 32 位，复制下来。修改 app.py 中的 ids
+
+#### 运行环境准备
 
 ```shell
 python3 -m venv .venv
