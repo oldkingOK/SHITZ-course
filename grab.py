@@ -7,15 +7,27 @@ import requests
 
 class ClassType:
     MUST = "bx-b-b" 
-    """必修课程体系"""
+    """必修"""
     LIMIT = "xx-b-b" 
-    """限选课程体系"""
-    CROSS_IN_PLAN = "fankzy-b-b" 
-    """专业内跨专业课程体系"""
-    CROSS = "sx-b-b" 
-    """跨专业课程体系"""
+    """限选"""
+    SPORTS = "ty-b-b"
+    """体育"""
+    WRITE = "xzygt-b-b"
+    """写作与沟通"""
+    CREATIVE = "cxcytx-b-b"
+    """创新创业通选课"""
+    PRACTICE = "shsj-b-b"
+    """社会实践课"""
     COMPETITION = "jsrw-b-b"
     """竞赛指导课程体系"""
+    CREATIVE_RESEARCH = "cxyx-b-b"
+    """创新研究"""
+    CREATIVE_EXPIREMENT = "cysy-b-b"
+    """创新实验"""
+    CROSS_IN_PLAN = "fankzy-b-b"
+    """方案内跨专业"""
+    CROSS = "sx-b-b" 
+    """跨专业课程体系"""
 
 
 def grab_class(id, cookie, type=ClassType.MUST):
