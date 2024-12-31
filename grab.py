@@ -44,11 +44,6 @@ def grab_class(id, cookie, type=ClassType.MUST):
         "JSESSIONID": cookie.split(";")[0].split("=")[1],
         "route": cookie.split(";")[2].split("=")[1]
     }
-    
-    # cookies = {
-    #     "JSESSIONID": "A879873B12E1D04CD2B0AAE8627A7DB5",
-    #     "route": "1db2c5f6085b9278d9cf7aaa8af65cd2"
-    # }
 
     print(cookies)
     response = requests.post(URL, 
@@ -65,7 +60,6 @@ def grab_class(id, cookie, type=ClassType.MUST):
         return response.json()
     except:
         print("Failed to parse response as JSON")
-        # print(response.text)
         return response.text
 
 if __name__ == "__main__":
